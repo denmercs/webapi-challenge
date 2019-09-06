@@ -1,5 +1,6 @@
 const express = require("express");
 const Data = require("../data/helpers/actionModel");
+const ProjData = require("../data/helpers/projectModel");
 const router = express.Router();
 
 // GET ACTIONS
@@ -28,6 +29,20 @@ router.get("/:id", (req, res) => {
       res.status(500).json({
         errorMessage: "The actions id could not be retrieved"
       });
+    });
+});
+
+// GET PROJECT ACTIONS
+router.get("/projectsall/:id", (req, res) => {
+  const { id } = req.params;
+
+  ProjData.getProjectActions(id)
+    .then(project => {
+      res.status(200).json(project);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({ err: "Something is wrong with the query" });
     });
 });
 
